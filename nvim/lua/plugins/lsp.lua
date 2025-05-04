@@ -18,6 +18,7 @@ return {
           'jdtls',
           'eslint',
           'omnisharp',
+          'pyright',
         },
       }
     end,
@@ -57,6 +58,10 @@ return {
       }
       lspconfig.emmet_ls.setup {
         capabilities = capabilities,
+      }
+      lspconfig.pyright.setup {
+        capabilities = capabilities,
+        filetypes = { 'python' },
       }
       lspconfig.gopls.setup {
         capabilities = capabilities,
