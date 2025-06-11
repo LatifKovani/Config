@@ -4,16 +4,16 @@ return {
   config = function()
     local lint = require("lint")
     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-    local eslint_d = lint.linters.eslint_d
+    local eslint = lint.linters.eslint
 
     lint.linters_by_ft = {
-      javascript = { "eslint_d" },
+      javascript = { "eslint" },
       typescript = { "eslint" },
       javascriptreact = { "eslint" },
       typescriptreact = { "eslint" },
       svelte = { "eslint" },
     }
-    eslint_d.args = {
+    eslint.args = {
       "--no-warn-ignored", -- <-- this is the key argument
       "--format",
       "json",

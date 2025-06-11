@@ -1,96 +1,138 @@
 return {
-  'nvim-lualine/lualine.nvim',
-  config = function()
-    -- Everforest color palette (soft dark variant)
-    local colors = {
-      bg = '#2b3339', -- Dark background
-      fg = '#d3c6aa', -- Default text
-      yellow = '#dbbc7f', -- Visual mode
-      cyan = '#83c092', -- Insert mode
-      green = '#a7c080', -- Normal mode
-      orange = '#e69875', -- Command mode
-      red = '#e67e80', -- Replace mode
-      gray = '#7a8478', -- Inactive text
-    }
+	"nvim-lualine/lualine.nvim",
+	dependencies = { "nvim-tree/nvim-web-devicons" },
+	config = function()
+		local devicons = require("nvim-web-devicons")
 
-    local mode = {
-      'mode',
-      fmt = function(str)
-        return ' ' .. str
-        -- return ' ' .. str:sub(1, 1) -- displays only the first character of the mode
-      end,
-    }
+		local function folder_and_file()
+			local filepath = vim.fn.expand("%:p")
+			if filepath == "" then
+				return ""
+			end
+			local relpath = vim.fn.fnamemodify(filepath, ":~:.")
+			local folder_icon = ""
+			local folder = vim.fn.fnamemodify(relpath, ":h")
+			local fname = vim.fn.fnamemodify(relpath, ":t")
+			if folder and folder ~= "." and folder ~= "" then
+				return string.format("%s %s/%s", folder_icon, folder, fname)
+			else
+				return string.format("%s %s", folder_icon, fname)
+			end
+		end
 
-    local filename = {
-      'filename',
-      file_status = true, -- displays file status (readonly status, modified status)
-      path = 0, -- 0 = just filename, 1 = relative path, 2 = absolute path
-    }
+		local function github_repo()
+			local remote = vim.fn.systemlist("git remote get-url origin")[1] or ""
+			local icon = ""
+			local repo = remote:match("github.com[:/](.+).git") or ""
+			if repo ~= "" then
+				return string.format("%s %s", icon, repo)
+			end
+			return ""
+		end
 
-    local hide_in_width = function()
-      return vim.fn.winwidth(0) > 100
-    end
+		local function lsp_name()
+			local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+			if #buf_clients == 0 then
+				return ""
+			end
+			for _, client in ipairs(buf_clients) do
+				if client.name ~= "null-ls" then
+					return client.name
+				end
+			end
+			return ""
+		end
 
-    local diagnostics = {
-      'diagnostics',
-      sources = { 'nvim_diagnostic' },
-      sections = { 'error', 'warn' },
-      symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
-      colored = false,
-      update_in_insert = false,
-      always_visible = false,
-      cond = hide_in_width,
-    }
+		local function progress_block()
+			local current = vim.fn.line(".")
+			local total = vim.fn.line("$")
+			local percent = (total ~= 0) and math.floor((current / total) * 100) or 0
+			local crosshairs_icon = ""
+			local bar_icon = "≡"
+			local location = ("%d:%d"):format(current, vim.fn.col("."))
+			return string.format("  %s %s  %s  %s  ", crosshairs_icon, location, bar_icon, percent .. "%%")
+		end
 
-    local diff = {
-      'diff',
-      colored = false,
-      symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
-      cond = hide_in_width,
-    }
+		require("lualine").setup({
+			options = {
+				theme = "nordic",
+				icons_enabled = true,
+				component_separators = "",
+				section_separators = { left = "", right = "" },
+				always_divide_middle = false,
+				globalstatus = true,
+			},
+			sections = {
+				lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
+				lualine_b = {
+					folder_and_file,
+					github_repo,
+					{
+						"diff",
+						symbols = { added = " ", modified = " ", removed = " " },
+						colored = true,
+						diff_color = {
+							added = { fg = "#7a7c86" },
+							modified = { fg = "#7a7c86" },
+							removed = { fg = "#7a7c86" },
+						},
+					},
+				},
+				lualine_c = {},
+				lualine_x = {
+					{
+						"diagnostics",
+						sources = { "nvim_diagnostic" },
+						sections = { "error", "warn" },
+						symbols = { error = " ", warn = " " },
+						colored = true,
+						update_in_insert = false,
+						always_visible = true,
+						diagnostics_color = {
+							error = { fg = "#ef4444", bg = "NONE" }, -- bright red
+							warn = { fg = "#eed202", bg = "NONE" }, -- yellow
+						},
+					},
+					lsp_name,
+				},
+				lualine_y = {},
+				lualine_z = {
+					{
+						progress_block,
+						separator = { left = "", right = "" },
+						color = { fg = "#232731", bg = "#e0a080", gui = "bold" },
+						padding = 0,
+					},
+				},
+			},
+			inactive_sections = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = { folder_and_file },
+				lualine_x = { "location" },
+				lualine_y = {},
+				lualine_z = {},
+			},
+			tabline = {},
+			extensions = {},
+		})
 
-    require('lualine').setup {
-      options = {
-        icons_enabled = true,
-        theme = {
-          normal = {
-            a = { bg = colors.green, fg = colors.bg, gui = 'bold' },
-            b = { bg = 'NONE', fg = colors.fg },
-            c = { bg = 'NONE', fg = colors.fg },
-          },
-          insert = { a = { bg = colors.cyan, fg = colors.bg, gui = 'bold' } },
-          visual = { a = { bg = colors.yellow, fg = colors.bg, gui = 'bold' } },
-          replace = { a = { bg = colors.red, fg = colors.bg, gui = 'bold' } },
-          command = { a = { bg = colors.orange, fg = colors.bg, gui = 'bold' } },
-          inactive = {
-            a = { bg = 'NONE', fg = colors.gray },
-            b = { bg = 'NONE', fg = colors.gray },
-            c = { bg = 'NONE', fg = colors.gray },
-          },
-        },
-        section_separators = { left = '', right = '' },
-        component_separators = { left = '', right = '' },
-        disabled_filetypes = { 'alpha', 'neo-tree' },
-        always_divide_middle = true,
-      },
-      sections = {
-        lualine_a = { mode },
-        lualine_b = { 'branch' },
-        lualine_c = { filename },
-        lualine_x = { diagnostics, diff, { 'encoding', cond = hide_in_width }, { 'filetype', cond = hide_in_width } },
-        lualine_y = { 'location' },
-        lualine_z = { 'progress' },
-      },
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { { 'filename', path = 1 } },
-        lualine_x = { { 'location', padding = 0 } },
-        lualine_y = {},
-        lualine_z = {},
-      },
-      tabline = {},
-      extensions = { 'fugitive' },
-    }
-  end,
+		-- Guarantee transparent backgrounds in all modes, and set fg as requested
+		local modes = { "normal", "insert", "visual", "replace", "command", "terminal" }
+		for _, mode in ipairs(modes) do
+			vim.api.nvim_set_hl(0, "LualineDiagnosticsError_" .. mode, { fg = "#ff3333", bg = "NONE" })
+			vim.api.nvim_set_hl(0, "LualineDiagnosticsWarn_" .. mode, { fg = "#eed202", bg = "NONE" })
+		end
+
+		-- Enforce after colorscheme changes too!
+		vim.api.nvim_create_autocmd("ColorScheme", {
+			pattern = "*",
+			callback = function()
+				for _, mode in ipairs(modes) do
+					vim.api.nvim_set_hl(0, "LualineDiagnosticsError_" .. mode, { fg = "#ff3333", bg = "NONE" })
+					vim.api.nvim_set_hl(0, "LualineDiagnosticsWarn_" .. mode, { fg = "#eed202", bg = "NONE" })
+				end
+			end,
+		})
+	end,
 }
