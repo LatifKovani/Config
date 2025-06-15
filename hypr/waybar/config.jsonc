@@ -1,122 +1,329 @@
 {
-    "layer": "top",
-    "position": "top",
-    "mod": "dock",
-    "exclusive": true,
-    "passthrough": false,
-    "gtk-layer-shell": true,
-    "height": 30,
-    "modules-left": ["pulseaudio","pulseaudio#microphone", "custom/power_profile",],
-    "modules-center": ["hyprland/window"],
-    "modules-right": ["tray", "battery","backlight","network", "bluetooth","clock"],
-    "hyprland/window": {
-        "format": "{}"
-    },
+  // ─────────────────────────────────────────────────────────────┤ header ├───
 
-    "wlr/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "on-click": "activate",
-        "persistent_workspaces": {
-            "1": [],
-            "2": [],
-            "3": [],
-            "4": [],
-            "5": [],
-            "6": [],
-            "7": [],
-            "8": [],
-            "9": [],
-            "10": []
-        }
+  "layer": "top",
+  "position": "top",
+  "mode": "dock",
+  "reload_style_on_change": true,
+  "gtk-layer-shell": true,
+
+  // ──────────────────────────────────────────────────────────┤ positions ├───
+
+  "modules-left": [
+    "custom/left5",
+    "custom/distro",        // distro icon
+    "custom/right2",
+
+
+    "custom/paddw",
+    "hyprland/window"       // window title
+  ],
+
+  "modules-center": [
+    "hyprland/workspaces",  // workspaces
+    "custom/right1",
+
+  ],
+
+  "modules-right": [
+
+    "custom/left3",
+    "memory",               // memory
+
+    "custom/left4",
+    "cpu",                  // cpu
+    "custom/leftin1",
+
+
+    "custom/left6",
+    "pulseaudio",           // output device
+
+    "custom/left7",
+    "backlight",            // brightness
+       
+
+    "custom/wifi",          // wi-fi
+    "bluetooth",            // bluetooth
+
+
+
+    "custom/left8",
+    "battery",              // battery
+
+    "clock#date",           // date
+    "custom/right4",
+
+    "custom/rightin1",
+    "clock#time",           // time
+    "custom/right3",
+    "custom/leftin2",
+  ],
+
+  // ─────────────────────────────────────────────────────────┤ workspaces ├───
+
+"hyprland/workspaces": {
+      "format": "{icon}",
+      "on-click": "activate",
+      "format-icons": {
+        "active": " ",
+      },
+      "sort-by-number": true,
+      "persistent-workspaces": {
+        "*": 5, // 5 workspaces by default on every monitor
+        "HDMI-A-1": 3 // but only three on HDMI-A-1
+      },
     },
+// ─────────────────────────────────────────────────────────────┤ window ├───
+"hyprland/window": {
+  "format": "{}",
+  "tooltip": false,
+  "min-length": 5,
+  "rewrite": {
+    // ────────────────────────────────────────────────────────── desktop ───
+    "": "<span foreground='#8aadf4'> </span> Hyprland",
     
-    "custom/power_profile":{
-        //shows the current power profile and switches to next on click
-        "exec": "asusctl profile -p | sed s:'Active profile is'::",
-        "interval": 30,
-        "format": "󰈐{}", 
-        "on-click": "asusctl profile -n; pkill -SIGRTMIN+8 waybar",
-        "signal": 8
-    },
-
-    "tray": {
-        "icon-size": 18,
-        "spacing": 10
-    },
-
-    "clock": {
-        "format": "{:%I:%M %p   %a, %b %e }",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
-    },
-
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "{icon} {percent}%",
-        "format-icons": ["󰃞", "󰃟", "󰃠"],
-        "on-scroll-up": "brightnessctl set 1%+",
-        "on-scroll-down": "brightnessctl set 1%-",
-        "min-length": 6
-    },
-
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 20
-        },
-        "format": "{icon} {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-    },
-
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "tooltip": false,
-        "format-muted": " Muted",
-        "on-click": "pamixer -t",
-        "on-scroll-up": "pamixer -i 5",
-        "on-scroll-down": "pamixer -d 5",
-        "scroll-step": 5,
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        }
-    },
-
-    "pulseaudio#microphone": {
-        "format": "{format_source}",
-        "format-source": " {volume}%",
-        "format-source-muted": " Muted",
-        "on-click": "pamixer --default-source -t",
-        "on-scroll-up": "pamixer --default-source -i 5",
-        "on-scroll-down": "pamixer --default-source -d 5",
-        "scroll-step": 5
-    },
+    // ───────────────────────────────────────────────────────── terminal ───
+    "(.*:)?nvim( .*)?": "<span foreground='#a6da95'> </span> Neovim",
+  "(.*:)?kitty( .*)?": "   Kitty",   // Matches default:2:kitty, 1:kitty, kitty
+  "(.*:)?zsh( .*)?": "  Terminal",  "tmux(.*)": "<span foreground='#a6da95'>󰆍</span> Tmux",
     
-    "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "  {signalStrength}%",
-        "format-ethernet": "{ipaddr}/{cidr}",
-        "tooltip-format": "{essid} - {ifname} via {gwaddr}",
-        "format-linked": "{ifname} (No IP)",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}:{essid} {ipaddr}/{cidr}"
+    // ────────────────────────────────────────────────────────── browser ───
+    "(.*)Mozilla Firefox": "<span foreground='#ed8796'>󰈹</span> Firefox",
+    "(.*)Zen Browser": "<span foreground='#f5a97f'> </span> Zen Browser",
+    
+    // ────────────────────────────────────────────────────── development ───
+    "(.*) - Visual Studio Code": "<span foreground='#8aadf4'>󰨞</span> VS Code",
+    "(.*)Visual Studio Code": "<span foreground='#8aadf4'>󰨞</span> VS Code",
+    "nvim": "<span foreground='#a6da95'></span> Neovim",
+    "nvim (.*)": "<span foreground='#a6da95'></span> Neovim",
+    "vim": "<span foreground='#a6da95'></span> Vim",
+    "vim (.*)": "<span foreground='#a6da95'></span> Vim",
+    
+    // ──────────────────────────────────────────────────────────── media ───
+    "(.*)Spotify": "<span foreground='#a6da95'>󰓇</span> Spotify",
+    "(.*)Spotify Premium": "<span foreground='#a6da95'>󰓇</span> Spotify",
+    "OBS(.*)": "<span foreground='#a5adcb'>󰐌</span> OBS",
+    "VLC media player": "<span foreground='#f5a97f'>󰕼</span> VLC",
+    "(.*) - VLC media player": "<span foreground='#f5a97f'>󰕼</span> VLC",
+    "(.*) - mpv": "<span foreground='#c6a0f6'>󰐹</span> MPV",
+    "qView": "󰋩 qView",
+    "(.*).jpg": "󰋩 Image",
+    "(.*).png": "󰋩 Image",
+    "(.*).svg": "󰋩 Image",
+    
+    // ─────────────────────────────────────────────────────────── social ───
+    "• Discord(.*)": "<span foreground='#8aadf4'>󰙯</span> Discord",
+    "(.*)Discord(.*)": "<span foreground='#8aadf4'>󰙯</span> Discord",
+    "vesktop": "<span foreground='#8aadf4'>󰙯</span> Discord",
+    
+    // ──────────────────────────────────────────────────────── documents ───
+    "ONLYOFFICE Desktop Editors": "<span foreground='#ed8796'>󰏆</span> OnlyOffice",
+    "(.*).docx": "<span foreground='#8aadf4'></span> Word",
+    "(.*).xlsx": "<span foreground='#a6da95'></span> Excel",
+    "(.*).pptx": "<span foreground='#f5a97f'></span> PowerPoint",
+    "(.*).pdf": "<span foreground='#ed8796'></span> PDF",
+    
+    // ─────────────────────────────────────────────────────────── system ───
+    "Authenticate": "󰦝 Authenticate"
+  }
+},
+  // ─────────────────────────────────────────────────────────────┤ memory ├───
+
+  "memory": {
+    "states": {
+      "warning": 75,
+      "critical": 90
     },
 
-    "bluetooth": {
-	    "format": " {status}",
-	    "format-disabled": "", // an empty format will hide the module
-	    "format-connected": " {num_connections}",
-	    "tooltip-format": "{device_alias}",
-	    "tooltip-format-connected": " {device_enumerate}",
-	    "tooltip-format-enumerate-connected": "{device_alias}"
-    }
-}
+    "format": " {percentage}%",
+    "format-critical": "󰀦 {percentage}%",
+    "tooltip": false,
+    "tooltip-format": "Memory Used: {used:0.1f} GB / {total:0.1f} GB",
+    "interval": 5,
+    "min-length": 6,
+    "max-length": 6 
+  },
+
+  // ────────────────────────────────────────────────────────────────┤ cpu ├───
+
+  "cpu": {
+    "format": "  {usage}%",
+    "tooltip": false,
+    "interval": 5,
+    "min-length": 6,
+    "max-length": 6
+  },
+"clock#time": {
+  "format": "{:%H:%M:%S}",
+  "tooltip-format": "Standard Time: {:%I:%M %p}",
+  "interval": 1,
+  "min-length": 8,
+  "max-length": 8
+},
+  // ─────────────────────────────────────────────────────────────┤ distro ├───
+
+"custom/distro": {
+  "format": " ",  // ose " Arch"
+  "tooltip": "Arch Linux",
+},
+  // ───────────────────────────────────────────────────────────────┤ time ├───
+"clock#time": {
+  "format": "{:%H:%M:%S}",
+  "tooltip-format": "Standard Time: {:%I:%M %p}",
+  "interval": 1,
+  "min-length": 8,
+  "max-length": 8
+},
+  // ───────────────────────────────────────────────────────────────┤ date ├───
+
+  "clock#date": {
+    "format": "{:%a %d %b}",
+    "tooltip-format": "<tt>{calendar}</tt>",
+
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 6,
+      "on-click-right": "mode",
+
+      "format": {
+        "months": 
+          "<span color='#b7bdf8'><b>{}</b></span>",
+        "weekdays": 
+          "<span color='#a5adcb' font='7'>{}</span>",
+        "today": 
+          "<span color='#ed8796'><b>{}</b></span>"
+
+      }
+    },
+
+    "actions": {
+      "on-click": "mode",
+      "on-click-right": "mode"
+    },
+
+    "min-length": 8,
+    "max-length": 8
+  },
+
+  // ──────────────────────────────────────────────────────────────┤ wi-fi ├───
+
+  "custom/wifi": {
+    "exec": "~/.config/waybar/scripts/wifi-status.sh",
+    "return-type": "json",
+    "format": "",
+    "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
+    "on-click-right": "kitty --title '  Network Manager TUI' bash -c nmtui",
+    "interval": 1,
+    "min-length": 1,
+    "max-length": 1
+  },
+
+  // ──────────────────────────────────────────────────────────┤ bluetooth ├───
+
+  "bluetooth": {
+    "format": "󰂯",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂯",
+    "format-connected-battery": "󰂯",
+
+    "tooltip-format": 
+      "{num_connections} connected",
+    "tooltip-format-disabled": 
+      "Bluetooth Disabled",
+    "tooltip-format-connected": 
+      "{device_enumerate}",
+    "tooltip-format-enumerate-connected": 
+      "{device_alias}",
+    "tooltip-format-enumerate-connected-battery": 
+      ":: {device_alias}: 󱊣 {device_battery_percentage}%",
+
+    "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh",
+    "on-click-right": "kitty --title '󰂯  Bluetooth TUI' bash -c bluetui",
+    "interval": 1,
+    "min-length": 1,
+    "max-length": 1
+  },
+
+  // ─────────────────────────────────────────────────────────┤ media info ├───
+
+  "mpris": {
+    "format": "{player_icon} {title} - {artist}",
+    "format-paused": "{status_icon} {title} - {artist}",
+
+    "player-icons": {
+      "default": "󰝚 ",
+      "spotify": "<span foreground='#a6da95'>󰓇 </span>",
+      "firefox": "<span foreground='#ed8796'>󰗃 </span>"
+    },
+    "status-icons": {
+      "paused": "<span color='#b7bdf8'>\u200A\u200A󰏤\u2009\u2009</span>"
+    },
+
+    "tooltip-format": "Playing: {title} - {artist}",
+    "tooltip-format-paused": "Paused: {title} - {artist}",
+    "min-length": 5,
+    "max-length": 35
+  },
+
+  // ──────────────────────────────────────────────────────┤ output device ├───
+
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-muted": " ",
+
+    "format-icons": {
+      "default": ["", "", ""],
+      "headphone": "󰋋",
+      "headset": "󰋋"
+    },
+
+    "tooltip-format": "Device: {desc}",
+    "on-click": "~/.config/waybar/scripts/volume-control.sh -o m",
+    "on-scroll-up": "~/.config/waybar/scripts/volume-control.sh -o i",
+    "on-scroll-down": "~/.config/waybar/scripts/volume-control.sh -o d",
+    "min-length": 3,
+    "max-length": 3 
+  },
+
+  // ─────────────────────────────────────────────────────────┤ brightness ├───
+
+  "backlight": {
+    "format": "{icon}",
+    "format-icons": [""],
+    "tooltip": false,
+    "on-scroll-up": "~/.config/waybar/scripts/brightness-control.sh -o i",
+    "on-scroll-down": "~/.config/waybar/scripts/brightness-control.sh -o d",
+    "min-length": 3,
+    "max-length": 3
+  },
+
+  // ────────────────────────────────────────────────────────────┤ battery ├───
+
+"battery": {
+  "bat": "BAT0",               // 👈 force only BAT0
+  "states": {
+    "warning": 20,
+    "critical": 10
+  },
+  "format": "{capacity}% {icon} ",
+  "format-icons": ["", "", "", "", ""],
+  "format-charging": " {capacity}%",
+  "tooltip-format": "Battery: {capacity}%\nTime left: {time}",
+  "tooltip-format-charging": "Charging: {capacity}%\nTime left: {time}",
+  "interval": 1,
+  "min-length": 8,
+  "max-length": 8
+},
+
+  // ────────────────────────────────────────────────────────────┤ padding ├───
+
+  "custom/paddw": {
+    "format": " ",
+    "tooltip": false
+  },
+
+  "custom/paddc": {
+    "format": " ",
+    "tooltip": false
+  }
+},
