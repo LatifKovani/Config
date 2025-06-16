@@ -18,7 +18,7 @@ window#waybar {
 /* ───────────────────────────────────────────────────────────┤ background ├───
 */
 window#waybar > box {
-  background: @time;
+  background: #2e3440;
   margin: 0px;
 }
 
@@ -138,7 +138,7 @@ button:hover {
 }
 
 #memory {
-  background: @time;
+  background: #2e3440;
   padding-right: 10px;
 }
 
@@ -159,7 +159,7 @@ button:hover {
 }
 
 #cpu {
-  background: @time;
+  background: #2e3440;
   padding-left: 0px;
   padding-right: 10px;
 }
@@ -174,7 +174,7 @@ button:hover {
 */
 #custom-left5 {
   color: @main-bg;
-  background: @main-bg;
+  background: #2e3440;
   text-shadow: none;
   margin-bottom: -2px;
   padding-left: 000000000px;
@@ -182,7 +182,7 @@ button:hover {
 
 #custom-distro {
   color: white;
-  background: @time;
+  background: #2e3440;
   padding: 5px;
   padding-left: 9px;
   text-shadow: 0 0 1.5px rgba(0, 0, 0, 1);
@@ -202,18 +202,8 @@ button:hover {
   margin-bottom: -1px;
 }
 
-#idle_inhibitor {
-  background: @time;
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-#idle_inhibitor:hover {
-  color: @hover-fg;
-}
-
 #clock.time {
-  background: @time;
+  background: #2e3440;
   margin-left: -2px;
   padding: 0 5px 0 0;
 }
@@ -226,7 +216,7 @@ button:hover {
 /* ─────────────────────────────────────────────────────────────────┤ date ├───
 */
 #clock.date {
-  background: @time;
+  background: #2e3440;
   padding-left: 0px;
   padding-right: 3px;
 }
@@ -237,13 +227,13 @@ button:hover {
 
 #custom-right4 {
   color: @date;
-  background: @tray;
+  background: #2e3440;
 }
 
 /* ────────────────────────────────────────────────────────────────┤ wi-fi ├───
 */
 #custom-wifi {
-  background: @time;
+  background: #2e3440;
   padding-right: 14px;
 }
 
@@ -254,7 +244,7 @@ button:hover {
 /* ────────────────────────────────────────────────────────────┤ bluetooth ├───
 */
 #bluetooth {
-  background: @time;
+  background: #2e3440;
   padding-right: 10px;
 }
 
@@ -262,22 +252,11 @@ button:hover {
   color: @main-bg;
 }
 
-/* ───────────────────────────────────────────────────────────┤ media info ├───
-*/
-#mpris {
-  background: @time;
-  padding: 0 8px 0 0px;
-}
-
-#mpris:hover {
-  color: @hover-fg;
-}
-
 /* ────────────────────────────────────────────────────────┤ output device ├───
 */
 #custom-left6 {
   color: @pulseaudio;
-  background: @cpu;
+  background: #2e3440;
   padding-left: 0px;
   margin-bottom: 0;
   text-shadow: none; /* Remove blur/shadow effect for crisp separator */
@@ -285,7 +264,7 @@ button:hover {
   letter-spacing: 0.188888em;
 }
 #pulseaudio {
-  background: @time;
+  background: #2e3440;
   padding-left: 0px;
   font-size: 15px; /* Match the size of other separators */
 } /* ───────────────────────────────────────────────────────────┤ brightness ├───
@@ -297,7 +276,7 @@ button:hover {
 }
 
 #backlight {
-  background: @time;
+  background: #2e3440;
   padding-left: 0px;
   padding-right: 5px;
 }
@@ -306,13 +285,13 @@ button:hover {
 */
 #custom-left8 {
   color: @battery;
-  background: @backlight;
+  background: red;
   padding-left: 0px;
 }
 
 #battery {
   color: @module-fg;
-  background: @time;
+  background: #2e3440;
   font-size: 15px;
   letter-spacing: 0.188888em;
 }
@@ -331,10 +310,6 @@ button:hover {
 
 /* ────────────────────────────────────────────────────────────┤ custom power ├───
 */
-#battery {
-  background: @time;
-  padding-right: 15px; /* Match the general padding */
-}
 
 #clock#date {
   background: @date;
@@ -370,38 +345,12 @@ button:hover {
 
 * {
   font-family: "SF Pro Display";
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
 
 tooltip label,
 #window label,
-
-/* ──────────────────────────────────────────────────┤ left & right arrows ├───
-*/
-#custom-left1,
-#custom-left2,
-#custom-left3,
-#custom-left4,
-#custom-left5,
-#custom-left6,
-#custom-left7,
-#custom-left8,
-#custom-right1,
-#custom-right2,
-#custom-right3,
-#custom-right4,
-#custom-right5 {
-  font-size: 18px;
-}
-
-/* ─────────────────────────────────────────────────┤ left & right inverse ├───
-*/
-#custom-leftin1,
-#custom-leftin2,
-#custom-rightin1 {
-  font-size: 17px;
-}
 
 /* ──────────────────────────────────────────────────────────┤ distro icon ├───
 */
@@ -427,4 +376,9 @@ tooltip label,
 
 #workspaces button.active {
   padding: 0 6px;
+}
+
+#window label {
+  font-size: 18px;
+  font-weight: bold;
 }
