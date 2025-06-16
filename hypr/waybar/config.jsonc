@@ -19,12 +19,6 @@
     "hyprland/window"       // window title
   ],
 
-  "modules-center": [
-    "hyprland/workspaces",  // workspaces
-    "custom/right1",
-
-  ],
-
   "modules-right": [
 
     "custom/left3",
@@ -61,18 +55,18 @@
 
   // ─────────────────────────────────────────────────────────┤ workspaces ├───
 
-"hyprland/workspaces": {
-      "format": "{icon}",
-      "on-click": "activate",
-      "format-icons": {
-        "active": " ",
-      },
-      "sort-by-number": true,
-      "persistent-workspaces": {
-        "*": 5, // 5 workspaces by default on every monitor
-        "HDMI-A-1": 3 // but only three on HDMI-A-1
-      },
-    },
+// "hyprland/workspaces": {
+//       "format": "{icon}",
+//       "on-click": "activate",
+//       "format-icons": {
+//         "active": " ",
+//       },
+//       "sort-by-number": true,
+//       "persistent-workspaces": {
+//         "*": 5, // 5 workspaces by default on every monitor
+//         "HDMI-A-1": 3 // but only three on HDMI-A-1
+//       },
+//     },
 // ─────────────────────────────────────────────────────────────┤ window ├───
 "hyprland/window": {
   "format": "{}",

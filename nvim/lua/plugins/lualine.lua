@@ -58,12 +58,21 @@ return {
 				theme = "nordic",
 				icons_enabled = true,
 				component_separators = "",
-				section_separators = { left = "", right = "" },
+				section_separators = { left = "", right = "" },
 				always_divide_middle = false,
 				globalstatus = true,
 			},
 			sections = {
-				lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
+				lualine_a = {
+					{
+						"mode",
+						fmt = function(str)
+							return " " .. str
+						end,
+						separator = { left = "" },
+						right_padding = 2,
+					},
+				},
 				lualine_b = {
 					folder_and_file,
 					github_repo,
@@ -89,8 +98,8 @@ return {
 						update_in_insert = false,
 						always_visible = true,
 						diagnostics_color = {
-							error = { fg = "#ef4444", bg = "NONE" }, -- bright red
-							warn = { fg = "#eed202", bg = "NONE" }, -- yellow
+							error = { fg = "#ef4444", bg = "#191D24" }, -- bright red
+							warn = { fg = "#eed202", bg = "#191D24" }, -- yellow
 						},
 					},
 					lsp_name,
@@ -120,8 +129,8 @@ return {
 		-- Guarantee transparent backgrounds in all modes, and set fg as requested
 		local modes = { "normal", "insert", "visual", "replace", "command", "terminal" }
 		for _, mode in ipairs(modes) do
-			vim.api.nvim_set_hl(0, "LualineDiagnosticsError_" .. mode, { fg = "#ff3333", bg = "NONE" })
-			vim.api.nvim_set_hl(0, "LualineDiagnosticsWarn_" .. mode, { fg = "#eed202", bg = "NONE" })
+			vim.api.nvim_set_hl(0, "LualineDiagnosticsError_" .. mode, { fg = "#ff3333", bg = "#191D24" })
+			vim.api.nvim_set_hl(0, "LualineDiagnosticsWarn_" .. mode, { fg = "#eed202", bg = "#191D24" })
 		end
 
 		-- Enforce after colorscheme changes too!
@@ -129,8 +138,8 @@ return {
 			pattern = "*",
 			callback = function()
 				for _, mode in ipairs(modes) do
-					vim.api.nvim_set_hl(0, "LualineDiagnosticsError_" .. mode, { fg = "#ff3333", bg = "NONE" })
-					vim.api.nvim_set_hl(0, "LualineDiagnosticsWarn_" .. mode, { fg = "#eed202", bg = "NONE" })
+					vim.api.nvim_set_hl(0, "LualineDiagnosticsError_" .. mode, { fg = "#ff3333", bg = "#191D24" })
+					vim.api.nvim_set_hl(0, "LualineDiagnosticsWarn_" .. mode, { fg = "#eed202", bg = "#191D24" })
 				end
 			end,
 		})

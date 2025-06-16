@@ -1,0 +1,115 @@
+* {
+  font-family:
+    "JetBrainsMono Nerd Font", "Font Awesome 6 Free", "Font Awesome 5 Free",
+    "Font Awesome 5 Brands", "FontAwesome", sans-serif;
+  border: none;
+  box-shadow: none;
+}
+
+window#waybar {
+  background: #191d24;
+  color: #d8dee9;
+  border: none;
+  border-radius: 0 10px 0 0px;
+  min-height: 0px;
+}
+#custom-github {
+  background: #232531;
+  border-radius: 6px;
+  padding: 2px 11px;
+  margin-right: 6px;
+  font-size: 20px;
+}
+
+#custom-whatsapp {
+  background: #232531;
+  color: #97b67c;
+  font-size: 20px;
+  border-radius: 6px;
+  padding: 2px 10px;
+  margin-right: 18px;
+}
+
+#custom-volumebar,
+#custom-brightnessbar {
+  background: #232531;
+  color: #97b67c;
+  font-size: 15px;
+  border-radius: 6px;
+  padding: 0px 18px;
+  margin-right: 18px;
+}
+#disk {
+  background: #232531;
+  color: #e5c07b;
+  font-size: 14px;
+  padding: 0px 18px;
+  border-radius: 6px;
+  padding: 0px 8px;
+  margin-right: 18px;
+}
+#custom-netspeed {
+  color: #ebcb8b;
+  padding: 0px 8px;
+  font-size: 14px;
+}
+
+#custom-disk {
+  color: #d08770;
+  background: #232531; /* Background color, match your bar/workspace look */
+  border-radius: 6px; /* Rounded corners, adjust for more/less roundness */
+  padding: 0px 18px; /* No vertical padding, horizontal padding for space */
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+#workspaces,
+#hyprland-workspaces {
+  background: #272b36;
+  color: #d8dee9;
+  border-radius: 5px;
+  margin: 0 4px;
+  padding: 0 6px;
+  font-size: 16px;
+  min-height: 0;
+  min-width: 0;
+}
+
+#workspaces button,
+#hyprland-workspaces button {
+  background: transparent;
+  color: #7f899c;
+  border: none;
+  box-shadow: none;
+  border-radius: 4px;
+  padding: 0 7px;
+  margin: 0 1px;
+  min-height: 0;
+  min-width: 0;
+  transition: none;
+  font-weight: 400;
+  border-bottom: 2px solid transparent;
+}
+
+#workspaces button.active,
+#hyprland-workspaces button.active {
+  color: #eceff4;
+  font-weight: 600;
+  border-bottom: 2px solid #ebcb8b; /* Yellow underline */
+  background: transparent;
+}
+
+#workspaces button.urgent,
+#hyprland-workspaces button.urgent {
+  color: #bf616a;
+  font-weight: 600;
+  background: transparent;
+  border-bottom: 2px solid #bf616a;
+}
+
+#workspaces button:hover,
+#hyprland-workspaces button.focused {
+  color: #ebcb8b;
+  background: transparent;
+  border-bottom: 2px solid #ebcb8b;
+}

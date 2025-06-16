@@ -21,4 +21,5 @@ vim.o.swapfile = false
 vim.o.showtabline = 2
 vim.o.backspace = "indent,eol,start"
 vim.o.laststatus = 3
+vim.o.title = true
 vim.o.cmdheight = 0
